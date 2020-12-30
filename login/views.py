@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect, HttpResponse, render_to_response
-from .models import User, PhoneCheck
-from .forms import RegisterForm, CheckPhoneForm, PasswdReform
+from django.shortcuts import render, redirect, HttpResponse
+from login.models import User, PhoneCheck
+from login.forms import RegisterForm, CheckPhoneForm, PasswdReform
 import requests
 import random
 from functools import reduce
@@ -43,7 +43,8 @@ def login(request):
                     request.session["is_login"] = True
                     request.session["user_id"] = user.id
                     request.session["user_name"] = user.name
-                    response = render_to_response("index.html")
+                    response = render(request,"index.html")
+                    # response = render_to_response("index.html")
                     response.set_cookie("expire","898987")
                     # response.set_cookie("path","/")
                     return response

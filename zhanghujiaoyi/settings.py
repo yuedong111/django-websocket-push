@@ -76,10 +76,10 @@ WSGI_APPLICATION = 'zhanghujiaoyi.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',
+        'NAME': 'dtst',
         'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '',
+        'PASSWORD': 'qazwsx',
+        'HOST': '127.0.0.1',
         'PORT': '',
         'TEST_CHARSET': "utf-8",
     }

@@ -1,0 +1,1 @@
+D:\code\django-websocket-push\menv\Scripts\activate.bat

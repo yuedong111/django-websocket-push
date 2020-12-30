@@ -12,7 +12,7 @@ class TuisongConsumer(WebsocketConsumer):
 
     def connect(self):
         # self.websocket_cli()
-        self.cate_name = self.scope["url_route"]['kwargs']["category"]
+        self.cate_name = self.scope["url_route"]['kwargs'].get('category')
         self.cate_group_name = "goup_{}".format(self.cate_name)
         async_to_sync(self.channel_layer.group_add)(
             self.cate_group_name,
@@ -59,6 +59,8 @@ class TuisongConsumer(WebsocketConsumer):
         self.ws.run_forever()
 
     def disconnect(self, code):
+        print("codeis ", code)
+        # print(dir(self.channel_layer))
         async_to_sync(self.channel_layer.group_discard)(
             self.cate_group_name,
             self.channel_name
@@ -66,12 +68,22 @@ class TuisongConsumer(WebsocketConsumer):
         # self.ws.close()
 
     def receive(self, text_data=None, bytes_data=None):
-        t = threading.Thread(target=self.websocket_cli, args=())
-        t.setDaemon(True)
-        t.start()
-        text_data = json.loads(text_data)
-        print(text_data)
+        # t = threading.Thread(target=self.websocket_cli, args=())
+        # t.setDaemon(True)
+        # t.start()
 
+        # text_data = json.loads(text_data)
+        print(f"jie shou dao {text_data}")
+        # print(dir(self))
+        self.send(f"yi shou dao {self.channel_name}")
+        # self.channel_layer.send(message="yi shou dao",channel=self.channel_name)
+        # async_to_sync(self.channel_layer.send)(
+        #     self.cate_group_name,
+        #     {
+        #         "type": 'tuisong.message',
+        #         "message": "res"
+        #     }
+        # )
         # message = text_data["message"]
 
         # if not message:
