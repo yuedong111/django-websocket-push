@@ -5,6 +5,7 @@ from websocket import create_connection
 import json
 import gzip
 import websocket
+import time
 import threading
 
 
@@ -61,21 +62,28 @@ class TuisongConsumer(WebsocketConsumer):
     def disconnect(self, code):
         print("codeis ", code)
         # print(dir(self.channel_layer))
-        async_to_sync(self.channel_layer.group_discard)(
-            self.cate_group_name,
-            self.channel_name
-        )
+        # async_to_sync(self.channel_layer.group_discard)(
+        #     self.cate_group_name,
+        #     self.channel_name
+        # )
         # self.ws.close()
 
+    def deal(self,data):
+        count = 0
+        while count < 5:
+            self.send(f"yi shou dao {data}-{count}")
+            time.sleep(1)
+            count = count + 1
+
     def receive(self, text_data=None, bytes_data=None):
-        # t = threading.Thread(target=self.websocket_cli, args=())
-        # t.setDaemon(True)
-        # t.start()
 
         # text_data = json.loads(text_data)
         print(f"jie shou dao {text_data}")
+        t = threading.Thread(target=self.deal, args=(self.channel_name,))
+        t.setDaemon(True)
+        t.start()
         # print(dir(self))
-        self.send(f"yi shou dao {self.channel_name}")
+
         # self.channel_layer.send(message="yi shou dao",channel=self.channel_name)
         # async_to_sync(self.channel_layer.send)(
         #     self.cate_group_name,
